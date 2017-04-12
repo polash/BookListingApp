@@ -103,7 +103,7 @@ public class QueryUtils {
         return booksList;
     }
 
-    public static List<Books> fetchBooksData(String searchRequest) {
+    public static List<Books> fetchBooksData(String requestUrl) {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -112,11 +112,9 @@ public class QueryUtils {
 
         Log.i(LOG_TAG,"TEST: Books Data fetch called...");
 
-        //Get request string
-        String requestString = createRequestString(searchRequest);
 
         // Create URL object
-        URL url = createUrl(requestString);
+        URL url = createUrl(requestUrl);
 
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
@@ -208,13 +206,13 @@ public class QueryUtils {
         return output.toString();
     }
 
-    //create request String combing search string + query url
-    private static String createRequestString(String requestString) {
-        String queryURL = "https://www.googleapis.com/books/v1/volumes?q=";
-
-        //Add search string and max results
-        queryURL = queryURL + requestString + "&maxResults=15"; //return first 15 results
-
-        return queryURL;
-    }
+//    //create request String combing search string + query url
+//    private static String createRequestString(String requestString) {
+//        String queryURL = "https://www.googleapis.com/books/v1/volumes?q=";
+//
+//        //Add search string and max results
+//        queryURL = queryURL + requestString + "&maxResults=15"; //return first 15 results
+//
+//        return queryURL;
+//    }
 }
