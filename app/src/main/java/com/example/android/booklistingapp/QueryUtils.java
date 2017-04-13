@@ -24,10 +24,10 @@ import java.util.List;
 
 public class QueryUtils {
 
-
     //Log tag
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
+    //default constructor
     private QueryUtils() {
     }
 
@@ -45,7 +45,6 @@ public class QueryUtils {
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
-
             String authors = "";
 
             // Create a JSONObject from the JSON response string
@@ -96,25 +95,27 @@ public class QueryUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the Books JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the Books JSON results", e);
         }
 
         // Return the list of books
         return booksList;
     }
 
-    public static List<Books> fetchBooksData(String requestUrl) {
+    public static List<Books> fetchBooksData(String requestString) {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        Log.i(LOG_TAG,"TEST: Books Data fetch called...");
+        Log.i(LOG_TAG, "TEST: Books Data fetch called...");
 
+//        //Get request string
+//        String requestString = createRequestString(searchRequest);
 
         // Create URL object
-        URL url = createUrl(requestUrl);
+        URL url = createUrl(requestString);
 
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
@@ -127,12 +128,14 @@ public class QueryUtils {
         // Extract relevant fields from the JSON response and create a list of {@link books}s
         List<Books> books = extractFromJSON(jsonResponse);
 
-        // Return the list of {@link Earthquake}s
+        // Return the list of {@link Book}s
         return books;
     }
 
     /**
      * Returns new URL object from the given string URL.
+     *
+     * @param stringUrl
      */
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -147,8 +150,8 @@ public class QueryUtils {
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHttpRequest(URL url) throws IOException{
-        String jsonResponse ="";
+    private static String makeHttpRequest(URL url) throws IOException {
+        String jsonResponse = "";
 
         // If the URL is null, then return early.
         if (url == null) {
@@ -158,24 +161,24 @@ public class QueryUtils {
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         try {
-            urlConnection = (HttpURLConnection)url.openConnection();
+            urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.connect();
 
             //now need to check weather the connection is sucessful or not
-            if (urlConnection.getResponseCode() == 200){
+            if (urlConnection.getResponseCode() == 200) {
 
                 inputStream = urlConnection.getInputStream();
 
                 jsonResponse = readFromStream(inputStream);
-            }else {
+            } else {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Books JSON results.", e);
-        }finally {
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -192,13 +195,13 @@ public class QueryUtils {
      * Convert the {@link InputStream} into a String which contains the
      * whole JSON response from the server.
      */
-    private static String readFromStream(InputStream inputStream) throws IOException{
+    private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
-        if (inputStream != null){
+        if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
-            while (line != null){
+            while (line != null) {
                 output.append(line);
                 line = reader.readLine();
             }
@@ -206,13 +209,4 @@ public class QueryUtils {
         return output.toString();
     }
 
-//    //create request String combing search string + query url
-//    private static String createRequestString(String requestString) {
-//        String queryURL = "https://www.googleapis.com/books/v1/volumes?q=";
-//
-//        //Add search string and max results
-//        queryURL = queryURL + requestString + "&maxResults=15"; //return first 15 results
-//
-//        return queryURL;
-//    }
 }

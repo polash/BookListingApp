@@ -11,13 +11,13 @@ import java.util.List;
 
 public class BooksLoader extends AsyncTaskLoader<List<Books>> {
 
+
     private String mUrl;
 
     public BooksLoader(Context context, String url) {
         super(context);
         this.mUrl = url;
     }
-
 
 
     @Override

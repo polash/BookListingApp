@@ -15,16 +15,29 @@ import java.util.List;
 
 public class BooksAdapter extends ArrayAdapter<Books> {
 
-    public BooksAdapter( Context context,  List<Books> booksList) {
-        super(context,0, booksList);
+    /**
+     * constructor for the bookadapter
+     *
+     * @param context
+     * @param booksList
+     */
+    public BooksAdapter(Context context, List<Books> booksList) {
+        super(context, 0, booksList);
     }
 
-
+    /**
+     * getview method for the adapter
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
-    public View getView(int position,  View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         // Check if the existing view is being reused, otherwise inflate the view
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.list_view, parent, false);
         }
@@ -33,16 +46,16 @@ public class BooksAdapter extends ArrayAdapter<Books> {
         Books currentBooks = getItem(position);
 
         //find views to display book information
-        TextView bookTitle = (TextView)convertView.findViewById(R.id.book_title_text_view);
-        TextView bookAuthor = (TextView)convertView.findViewById(R.id.authors_name_text_view);
-        TextView publishedDate = (TextView)convertView.findViewById(R.id.date_text_view);
+        TextView bookTitle = (TextView) convertView.findViewById(R.id.book_title_text_view);
+        TextView bookAuthor = (TextView) convertView.findViewById(R.id.authors_name_text_view);
+        TextView publishedDate = (TextView) convertView.findViewById(R.id.date_text_view);
 
         //set data to display
         bookTitle.setText(currentBooks.getTitle());
         publishedDate.setText(currentBooks.getPublishedDate());
         bookAuthor.setText(currentBooks.getAuthors());
 
-
+        //returns the converted view to the screen
         return convertView;
     }
 }
