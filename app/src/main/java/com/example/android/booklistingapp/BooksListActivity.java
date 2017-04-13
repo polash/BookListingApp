@@ -38,11 +38,7 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
      * This really only comes into play if you're using multiple loaders.
      */
     private static final int LOADER_ID = 1;
-
-    //views
-    private EditText searchInput;
-    private View loadingIndicator;
-    private ImageButton searchButton;
+    //Views
     private TextView mEmptyStateTextView;
 
     //BooksAdapter instance
@@ -62,9 +58,8 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
         booksListView.setEmptyView(mEmptyStateTextView);
 
         //find the view ID
-        loadingIndicator = findViewById(R.id.loading_indicator);
-        searchButton = (ImageButton) findViewById(R.id.search_button);
-        searchInput = (EditText) findViewById(R.id.input_text);
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        ImageButton searchButton = (ImageButton) findViewById(R.id.search_button);
         mAdapter = new BooksAdapter(this, new ArrayList<Books>());
 
         // Set the adapter on the {@link ListView}
@@ -77,11 +72,12 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 Books currentBooks = mAdapter.getItem(position);
 
-                Uri booksUri = Uri.parse(currentBooks.getPreviewLink());
+                if (hasNetworkConnectivity(BooksListActivity.this)) {
+                    Uri booksUri = Uri.parse(currentBooks.getPreviewLink());
 
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, booksUri);
-
-                startActivity(websiteIntent);
+                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, booksUri);
+                    startActivity(websiteIntent);
+                }
             }
         });
 
@@ -108,6 +104,8 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                View loadingIndicator = findViewById(R.id.loading_indicator);
                 //Get inputManager
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 //Hide Keyboard
@@ -132,6 +130,7 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public Loader<List<Books>> onCreateLoader(int id, Bundle args) {
+        EditText searchInput = (EditText) findViewById(R.id.input_text);
         String searchText = searchInput.getText().toString();
 
         //Clear text in emptyView since we are initiating a new search
@@ -149,6 +148,7 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
     @Override
     public void onLoadFinished(Loader<List<Books>> loader, List<Books> booksList) {
         // Hide loading indicator because the data has been loaded
+        View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
         // Set empty state text to display "No Books found."
@@ -174,7 +174,7 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
     public boolean hasNetworkConnectivity(Context context) {
         //Init connectivity manager which is used to check if we have internet access
         ConnectivityManager check = (ConnectivityManager)
-                this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                this.getSystemService(context.CONNECTIVITY_SERVICE);
         //Get network information
         NetworkInfo networkInfo = check.getActiveNetworkInfo();
 

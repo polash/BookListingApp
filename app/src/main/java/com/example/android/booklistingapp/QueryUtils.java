@@ -111,10 +111,6 @@ public class QueryUtils {
 
         Log.i(LOG_TAG, "TEST: Books Data fetch called...");
 
-//        //Get request string
-//        String requestString = createRequestString(searchRequest);
-
-        // Create URL object
         URL url = createUrl(requestString);
 
         // Perform HTTP request to the URL and receive a JSON response back

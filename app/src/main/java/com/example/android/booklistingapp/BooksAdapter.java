@@ -51,9 +51,11 @@ public class BooksAdapter extends ArrayAdapter<Books> {
         TextView publishedDate = (TextView) convertView.findViewById(R.id.date_text_view);
 
         //set data to display
-        bookTitle.setText(currentBooks.getTitle());
-        publishedDate.setText(currentBooks.getPublishedDate());
-        bookAuthor.setText(currentBooks.getAuthors());
+        if (bookTitle != null && bookAuthor != null && publishedDate != null) {
+            bookTitle.setText(currentBooks.getTitle());
+            publishedDate.setText(currentBooks.getPublishedDate());
+            bookAuthor.setText(currentBooks.getAuthors());
+        }
 
         //returns the converted view to the screen
         return convertView;

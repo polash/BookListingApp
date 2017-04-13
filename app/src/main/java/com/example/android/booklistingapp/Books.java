@@ -7,13 +7,13 @@ package com.example.android.booklistingapp;
 public class Books {
 
     //default Books Title holder
-    private String mTitle;
+    private final String mTitle;
     //default Books Authors Name holder
-    private String mAuthors;
+    private final String mAuthors;
     //default published date of the books holder
-    private String mPublishedDate;
+    private final String mPublishedDate;
     //default Preview Link holder
-    private String mPreviewLink;
+    private final String mPreviewLink;
 
     /**
      * Constructor

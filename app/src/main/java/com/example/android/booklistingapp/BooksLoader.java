@@ -12,7 +12,7 @@ import java.util.List;
 public class BooksLoader extends AsyncTaskLoader<List<Books>> {
 
 
-    private String mUrl;
+    final private String mUrl;
 
     public BooksLoader(Context context, String url) {
         super(context);
@@ -27,11 +27,7 @@ public class BooksLoader extends AsyncTaskLoader<List<Books>> {
 
     @Override
     public List<Books> loadInBackground() {
-        if (mUrl == null) {
-            return null;
-        }
-
-        // Perform the network request, parse the response, and extract a list of earthquakes.
+        // Perform the network request, parse the response, and extract a list of Books.
         List<Books> books = QueryUtils.fetchBooksData(mUrl);
         return books;
     }
