@@ -7,13 +7,13 @@ package com.example.android.booklistingapp;
 public class Books {
 
     //default Books Title holder
-    private final String mTitle;
+    private final String title;
     //default Books Authors Name holder
-    private final String mAuthors;
+    private final String authors;
     //default published date of the books holder
-    private final String mPublishedDate;
+    private final String publishedDate;
     //default Preview Link holder
-    private final String mPreviewLink;
+    private final String previewLink;
 
     /**
      * Constructor
@@ -24,10 +24,10 @@ public class Books {
      * @param previewLink
      */
     public Books(String title, String publishedDate, String authors, String previewLink) {
-        this.mTitle = title;
-        this.mPublishedDate = publishedDate;
-        this.mAuthors = authors;
-        this.mPreviewLink = previewLink;
+        this.title = title;
+        this.publishedDate = publishedDate;
+        this.authors = authors;
+        this.previewLink = previewLink;
     }
 
     /**
@@ -36,7 +36,7 @@ public class Books {
      * @return title
      */
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Books {
      * @return Authors name
      */
     public String getAuthors() {
-        return mAuthors;
+        return authors;
     }
 
     /**
@@ -54,7 +54,7 @@ public class Books {
      * @return Published Date
      */
     public String getPublishedDate() {
-        return mPublishedDate;
+        return publishedDate;
     }
 
     /**
@@ -63,6 +63,6 @@ public class Books {
      * @return Preview URL Link
      */
     public String getPreviewLink() {
-        return mPreviewLink;
+        return previewLink;
     }
 }

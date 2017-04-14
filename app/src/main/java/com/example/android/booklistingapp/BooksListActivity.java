@@ -39,10 +39,10 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
      */
     private static final int LOADER_ID = 1;
     //Views
-    private TextView mEmptyStateTextView;
+    private TextView emptyStateTextView;
 
     //BooksAdapter instance
-    private BooksAdapter mAdapter;
+    private BooksAdapter adapter;
 
 
     @Override
@@ -54,23 +54,23 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
         ListView booksListView = (ListView) findViewById(R.id.list);
 
         //set empty state on loading the app at start
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        booksListView.setEmptyView(mEmptyStateTextView);
+        emptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        booksListView.setEmptyView(emptyStateTextView);
 
         //find the view ID
         View loadingIndicator = findViewById(R.id.loading_indicator);
         ImageButton searchButton = (ImageButton) findViewById(R.id.search_button);
-        mAdapter = new BooksAdapter(this, new ArrayList<Books>());
+        adapter = new BooksAdapter(this, new ArrayList<Books>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        booksListView.setAdapter(mAdapter);
+        booksListView.setAdapter(adapter);
 
         //URL intent that takes the user the books page in a web browser
         booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                Books currentBooks = mAdapter.getItem(position);
+                Books currentBooks = adapter.getItem(position);
 
                 if (hasNetworkConnectivity(BooksListActivity.this)) {
                     Uri booksUri = Uri.parse(currentBooks.getPreviewLink());
@@ -98,7 +98,7 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
 
             loadingIndicator.setVisibility(View.GONE);
 
-            mEmptyStateTextView.setText(R.string.no_books);
+            emptyStateTextView.setText(R.string.no_books);
         }
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -116,13 +116,13 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
                     //Start progessBar
                     loadingIndicator.setVisibility(View.VISIBLE);
 
-                    mAdapter.clear();
+                    adapter.clear();
                     getLoaderManager().restartLoader(LOADER_ID, null, BooksListActivity.this);
 
                 } else {
                     //No Network connectivity. Clear adapter and let user know
-                    mAdapter.clear();
-                    mEmptyStateTextView.setText(R.string.no_internet_connection);
+                    adapter.clear();
+                    emptyStateTextView.setText(R.string.no_internet_connection);
                 }
             }
         });
@@ -134,7 +134,7 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
         String searchText = searchInput.getText().toString();
 
         //Clear text in emptyView since we are initiating a new search
-        mEmptyStateTextView.setText("");
+        emptyStateTextView.setText("");
 
         //Build up query URI, limiting results to 10 items.
         Uri builtURI = Uri.parse(BOOK_BASE_URL).buildUpon()
@@ -152,22 +152,22 @@ public class BooksListActivity extends AppCompatActivity implements LoaderManage
         loadingIndicator.setVisibility(View.GONE);
 
         // Set empty state text to display "No Books found."
-        mEmptyStateTextView.setText(R.string.no_books);
+        emptyStateTextView.setText(R.string.no_books);
 
         // Clear the adapter of previous books data
-        mAdapter.clear();
+        adapter.clear();
 
         // If there is a valid list of {@link Books}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (booksList != null && !booksList.isEmpty()) {
-            mAdapter.addAll(booksList);
+            adapter.addAll(booksList);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Books>> loader) {
         // Loader reset, so we can clear out our existing data.
-        mAdapter.clear();
+        adapter.clear();
     }
 
     //Checks Network Connectivity

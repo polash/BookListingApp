@@ -51,16 +51,16 @@ public class QueryUtils {
             JSONObject baseJsonResponse = new JSONObject(booksJSON);
 
             // Extract the JSONArray associated with the key called "items"
-            JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
+            JSONArray itemsArray = baseJsonResponse.optJSONArray("items");
 
             //Cycle through every item in array
             for (int i = 0; i < itemsArray.length(); i++) {
 
                 // Get book object inside array at position i
-                JSONObject currentBook = itemsArray.getJSONObject(i);
+                JSONObject currentBook = itemsArray.optJSONObject(i);
 
                 //Get JSONObject associated with the key called "volumeinfo"
-                JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
+                JSONObject volumeInfo = currentBook.optJSONObject("volumeInfo");
 
                 //Get book title associated with the key called "title"
                 String title = volumeInfo.getString("title");
